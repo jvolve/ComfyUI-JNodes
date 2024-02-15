@@ -1,3 +1,4 @@
+from pathlib import Path
 import re
 
 # STRINGS
@@ -163,6 +164,30 @@ class J_StringSelectByGender:
         
         return (default,)
 
+class J_FilenameWithoutExtension:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "path": ("STRING", { "forceInput": True }),
+            },
+        }
+
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("filename",)
+
+    FUNCTION = "doit"
+
+    OUTPUT_NODE = True
+
+    CATEGORY = "JNodes"
+
+    def doit(self, path:str):
+        result = Path(path.strip("\" ")).stem
+        
+        return (result,)
+
+
 
 NODE_CLASS_MAPPINGS = {
     "J Contains String": J_StringContains,
@@ -170,4 +195,5 @@ NODE_CLASS_MAPPINGS = {
     "J Split String": J_StringSplit,
     "J Select String": J_StringSelect,
     "J Select String By Gender": J_StringSelectByGender,
+    "J Filename Without Extension": J_FilenameWithoutExtension,
 }
